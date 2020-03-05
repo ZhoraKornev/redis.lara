@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Redis as RedisAlias;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,5 +15,6 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    $visits = RedisAlias::incr('visit');
+    return view('welcome')->withVisits($visits);
 });
