@@ -1,6 +1,6 @@
 <?php
 
-use Illuminate\Support\Facades\Redis as RedisAlias;
+use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,6 +15,12 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    $visits = RedisAlias::incr('visit');
+    $visits = Redis::incr('visit');
     return view('welcome')->withVisits($visits);
 });
+
+
+
+Route::get('/articles', 'ArticlesController@list')->name('list_articles');
+Route::get('/article/{article}', 'ArticlesController@show')->name('show_article');
+Route::get('/cache/redis/articles', 'RedisController@allArticles')->name('redis_articles');
